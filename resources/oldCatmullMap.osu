@@ -1,0 +1,29 @@
+osu file format v3
+
+[General]
+AudioFilename: UVERworld - D-tecnoLife(Album Version).mp3
+AudioHash: 11f12a41b56cb05ffa765c532fdf9655
+
+[Metadata]
+Title:D-tecnoLife(Album Version)
+Artist:UVERworld
+Creator:Lumino
+Version:Insane
+
+[Difficulty]
+HPDrainRate:7
+CircleSize:7
+OverallDifficulty:7
+SliderMultiplier: 1.4
+SliderTickRate: 1
+
+[Events]
+2,64550,75070
+2,117160,134530
+2,202950,209710
+
+[TimingPoints]
+10381,357.142857142857
+
+[HitObjects]
+96,256,49934,6,6,B|96:256|91:34|286:30|433:55|416:288,1,560

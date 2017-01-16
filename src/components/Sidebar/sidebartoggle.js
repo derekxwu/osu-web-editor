@@ -4,7 +4,6 @@
   * Toggles within each sidebar, plus sampleset/additions
   */
 
-'use strict';
 import React from 'react';
 
 export default class SidebarToggle extends React.Component {

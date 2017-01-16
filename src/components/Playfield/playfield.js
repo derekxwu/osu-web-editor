@@ -4,12 +4,38 @@
   * Grid and Hitobjects
   */
 
-'use strict';
 import React from 'react';
 import Grid from './grid.js';
+import PlayfieldCircle from '../HitObjects/playfieldcircle.js';
 
 export default class Playfield extends React.Component {
 	render() {
+		const currentTime = this.props.currentTime;
+		const VISIBLE_RANGE = 3000;
+		const VISIBLE_START = Math.max(this.props.currentTime - VISIBLE_RANGE, 0);
+		const VISIBLE_END = this.props.currentTime + VISIBLE_RANGE;
+		const visibleObjects = this.props.objects.filter((object) => { // Get objects that show up near current time
+			return (object.startTime > VISIBLE_START) && (object.startTime < VISIBLE_END);
+		}).map((object) => { // Map these objects to object types
+			switch(object.objectName) {
+			case 'circle':
+				return <PlayfieldCircle
+							key={object.startTime}
+							currentTime={currentTime}
+							x={object.position[0]}
+							y={object.position[1]}
+							time={object.startTime}
+						/>;
+			case 'slider':
+				break;
+			case 'spinner':
+				break;
+			case 'unknown':
+			default:
+				console.error('Playfield.js error: Error in hitobject.');
+				console.error(object);
+			}
+		});
 		return (
 			<div className="playfield">
 				{/* Playfield is 512x384
@@ -23,8 +49,14 @@ export default class Playfield extends React.Component {
 					<line x1="256" x2="256" y1="0" y2="384"
 					stroke="black" strokeWidth="0.5" strokeOpacity="0.5" />
 					<Grid />
+					{visibleObjects}
 				</svg>
 			</div>
 		);
 	}
 }
+
+Playfield.propTypes = {
+	currentTime: React.PropTypes.number,
+	objects: React.PropTypes.arrayOf(React.PropTypes.object)
+};

@@ -6,7 +6,6 @@
   * they're worth. Plus I'm not supporting storyboarding anyway.
   */
 
-'use strict';
 import React from 'react';
 
 export default class Dropdown extends React.Component {

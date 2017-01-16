@@ -4,7 +4,6 @@
   * Full timeline, playback speed
   */
 
-'use strict';
 import React from 'react';
 import PlaybackSpeed from './playbackspeed.js';
 import SongTimeline from './songtimeline.js';

@@ -6,7 +6,6 @@
   * Slider velocity?
   */
 
-'use strict';
 import React from 'react';
 
 export default class BeatSnap extends React.Component {

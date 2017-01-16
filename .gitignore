@@ -1,0 +1,8 @@
+.babel_cache/
+
+# npm dependencies
+node_modules/
+
+# Built from source
+src/static/css/
+src/static/js/

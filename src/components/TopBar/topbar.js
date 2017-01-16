@@ -4,7 +4,6 @@
   * Top section, containing dropdowns, local timeline, beat snap etc.
   */
 
-'use strict';
 import React from 'react';
 import BeatSnap from './beatsnap.js';
 import Dropdown from './dropdown.js';
