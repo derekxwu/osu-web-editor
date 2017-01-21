@@ -12,6 +12,7 @@ export default class BottomBar extends React.Component {
 	render() {
 		return (
 			<div className="bottombar">
+				{/* Thing to pop up other timelines */}
 				<SongTimeline />
 				<PlaybackSpeed />
 			</div>

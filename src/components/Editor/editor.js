@@ -100,7 +100,7 @@ export default class Editor extends React.Component {
 		return (
 			<div onDragOver={this.doNothing} onDrop={this.handleOszDrop}>
 				{topbar}
-				<div>
+				<div className="center">
 					<Sidebar side="left">
 						{sidebarTogglesLeft}
 					</Sidebar>

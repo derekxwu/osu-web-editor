@@ -13,8 +13,10 @@ export default class TopBar extends React.Component {
 	render() {
 		return (
 			<div className="topbar">
-				<Dropdown />
-				<LocalTimeline />
+				<div className="topbar-left">
+					<Dropdown />
+					<LocalTimeline />
+				</div>
 				<BeatSnap />
 			</div>
 		);

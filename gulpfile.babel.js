@@ -7,32 +7,32 @@ import less from 'gulp-less';
 import path from 'path';
 import webpack from 'webpack-stream';
 
-gulp.task('default', ['run']);
+gulp.task('default', ['build:p', 'run']);
 
-gulp.task('buildq', ['buildjs', 'buildcss']);
-gulp.task('build', ['buildjs:p', 'buildcss:p']);
+gulp.task('build', ['js', 'css']);
+gulp.task('build:p', ['js:p', 'css:p']);
 
-gulp.task('buildjs', () => {
+gulp.task('js', () => {
 	return gulp.src('./src/app-client.js')
 		.pipe(webpack(require('./webpack.config.js')))
-		.pipe(gulp.dest('./src/static/js'));
+		.pipe(gulp.dest('./static/js'));
 });
-gulp.task('buildjs:p', () => {
+gulp.task('js:p', () => {
 	return gulp.src('./src/app-client.js')
 		.pipe(webpack(require('./webpack.production.config.js')))
-		.pipe(gulp.dest('./src/static/js'));
+		.pipe(gulp.dest('./static/js'));
 });
 
-gulp.task('buildcss', () => {
+gulp.task('css', () => {
 	var autoprefix = new LessAutoprefix({browsers: ['last 2 versions']});
 	return gulp.src('./src/styles/*.less')
 		.pipe(less({
 			paths: [path.join(__dirname, 'less', 'includes')],
 			plugins: [autoprefix]
 		}))
-		.pipe(gulp.dest('./src/static/css/'));
+		.pipe(gulp.dest('./static/css/'));
 });
-gulp.task('buildcss:p', () => {
+gulp.task('css:p', () => {
 	var autoprefix = new LessAutoprefix({browsers: ['last 2 versions']});
 	return gulp.src('./src/styles/*.less')
 		.pipe(less({
@@ -42,24 +42,22 @@ gulp.task('buildcss:p', () => {
 		.pipe(cleancss({
 			level: 2
 		}))
-		.pipe(gulp.dest('./src/static/css/'));
+		.pipe(gulp.dest('./static/css/'));
 });
 
-gulp.task('runq', () => {
-	return exec('"./node_modules/.bin/http-server" src/static/');
-});
-gulp.task('run', ['buildq'], () => {
+gulp.task('run', () => {
 	// TODO: This sucks and gulp will say it's finished while the server is
 	// still running
-	return exec('"./node_modules/.bin/http-server" src/static/');
-});
-gulp.task('runp', ['build'], () => {
-	return exec('"./node_modules/.bin/http-server" src/static/');
+	return exec('"./node_modules/.bin/http-server" static/');
 });
 
 gulp.task('clean', () => {
-	return del([
-		'./src/static/css/*',
-		'./src/static/js/*'
-	]);
+	del([
+		'./static/css/*',
+		'./static/js/*',
+		'./.babel_cache/'
+	]).then((paths) => {
+		console.log('Deleted files and folders:\n', paths.join('\n'));
+	});
+	return;
 });

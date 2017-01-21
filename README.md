@@ -79,6 +79,7 @@ Top level state holds:
 * beatmap set
 * timestamp
 * playing/notplaying
+* current selection
 * active toggles (placing objects, snaps/locks)
 * undo history in state
 	* history is stack-like - allow undoing of not top?

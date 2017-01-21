@@ -1,3 +1,7 @@
+// Variables
+@timelinezoom-width: 24px;
+@beatsnap-width: 300px;
+
 html,
 body,
 .main,
@@ -6,17 +10,59 @@ body,
 	width: 100%;
 }
 
+// TODO: TEMPORARY
+body {
+	background-image: url('../img/background.jpg');
+	background-position: center;
+	background-size: cover;
+}
+
 p {
 	margin: 0;
 }
 
 .topbar {
-	background: blue;
+	background-color: rgba(10, 10, 10, 0.6);
 	height: 16%;
 	width: 100%;
+
+	.topbar-left {
+		float: left;
+		height: 100%;
+		width: ~'calc(100% - @{beatsnap-width})';
+
+		.dropdown {
+			background: blue;
+			height: 27%;
+			width: 100%;
+		}
+
+		.localtimeline {
+			height: 73%;
+			width: 100%;
+
+			.timelinezoom {
+				float: left;
+				height: 100%;
+				width: @timelinezoom-width;
+			}
+
+			svg {
+				height: 100%;
+				width: ~'calc(100% - @{timelinezoom-width})';
+			}
+		}
+	}
+
+	.beatsnap {
+		background: green;
+		float: right;
+		height: 100%;
+		width: @beatsnap-width;
+	}
 }
 
-.topbar + div {
+.center {
 	// Sidebar+Editor+Sidebar container
 	display: flex;
 	flex-direction: row;
@@ -34,8 +80,8 @@ p {
 	padding: 2% 0;
 
 	.sidebartoggle {
-		background-size: cover;
 		background-position: center;
+		background-size: cover;
 		height: 10vw;
 		width: 10vw;
 
