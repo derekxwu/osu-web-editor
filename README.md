@@ -37,6 +37,7 @@ MIT for my code. Others for other people's.
 * circle/sldier/spinner counts
 * show min od to prevent note lockout
 * timing - use bpm, offset, spectrogram/waveform instead of weird timing thing
+* Google Drive realtime API
 
 ***
 
