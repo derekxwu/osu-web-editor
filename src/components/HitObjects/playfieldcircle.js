@@ -9,7 +9,7 @@ import React from 'react';
 export default class PlayfieldCircle extends React.Component {
 	render() {
 		const timeDiff = Math.abs(this.props.time - this.props.currentTime);
-		const opacity = 1 - 0.7 * (timeDiff / 3000);
+		const opacity = 1 - 0.7 * (timeDiff / 500);
 		return (
 			<image 	href="img/hitcircle.png"
 					x={this.props.x} y={this.props.y}

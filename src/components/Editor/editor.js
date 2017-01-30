@@ -22,22 +22,28 @@ export default class Editor extends React.Component {
 			currentDiff: null,
 			audioFile: null,
 			backgroundImage: null,
-			currentTime: 0
+			currentTime: 0,
+			selection: [],
+			keyboard: new Set(),
+			drawer: setInterval(this.audioTimeUpdateHandler.bind(this), 40)
 		};
 
 		this.handleOszDrop = this.handleOszDrop.bind(this);
 		this.beatmapLoad = this.beatmapLoad.bind(this);
+		this.keyDownHandler = this.keyDownHandler.bind(this);
+		this.keyUpHandler = this.keyUpHandler.bind(this);
+		// this.audioTimeUpdateHandler = this.audioTimeUpdateHandler.bind(this);
 	}
 
-	doNothing(e) {
-		e.preventDefault();
+	doNothing(event) {
+		event.preventDefault();
 	}
 
-	handleOszDrop(e) {
-		e.preventDefault();
-		e.stopPropagation();
+	handleOszDrop(event) {
+		event.preventDefault();
+		event.stopPropagation();
 
-		JSZip.loadAsync(e.dataTransfer.files[0])
+		JSZip.loadAsync(event.dataTransfer.files[0])
 			.then(this.beatmapLoad, (error) => {
 				console.error(error);
 			});
@@ -59,12 +65,111 @@ export default class Editor extends React.Component {
 					backgroundImage: beatmap.bgFilename,
 					currentTime: 0
 				});
-				// Load song, background image
-				console.log(beatmap);
+				unzipped.file(beatmap.AudioFilename).async('base64', (meta) => {
+					console.log(meta.percent.toFixed(2) + '%');
+				})
+				.then((encodedSong) => {
+					this.refs.song.src = 'data:audio/mp3;base64,' + encodedSong;
+				});
+				
+
+				// eslint-disable-next-line no-console
+				console.log(beatmap); // TODO: This is temp
 			}, (error) => {
-				console.error('Failed to decompress file.');
-				console.error(error);
+				console.error('Failed to decompress file.\n', error);
 			});
+	}
+
+	audioTimeUpdateHandler() {
+		this.setState({currentTime: (Math.round(this.refs.song.currentTime * 1000))});
+	}
+
+	// Need to eat Tab presses so focus remains on React div
+	keyDownHandler(event) {
+		if (this.state.keyboard.has(event.key.toLowerCase())) {
+			event.preventDefault();
+			event.stopPropagation();
+			return;
+		}
+		let stopPropagation = true;
+
+		switch (event.key) {
+		case '1': // Select mode
+			break;
+		case '2': // Place circles
+			break;
+		case '3': // Place sliders
+			break;
+		case '4': // Place spinners
+			break;
+
+		case 'q': case 'Q': // New Combo
+			break;
+		case 'w': case 'W':
+			break;
+		case 'e': case 'E':
+			break;
+		case 'r': case 'R': // Ctrl+R MUST REFRESH
+			break;
+		case 't': case 'T':
+			break;
+
+		case 'a': case 'A': // Select all, AIMod
+			break;
+		case 's': case 'S': // Save, export
+			break;
+		case 'd': case 'D': // Clone, polygons
+			break;
+		case 'f': case 'F': // Slider2Stream
+			break;
+		case 'g': case 'G': // Reverse selection
+			break;
+
+		case 'z': case 'Z': // Undo
+			break;
+		case 'x': case 'X': // Cut
+			break;
+		case 'c': case 'C': // Copy
+			break;
+		case 'v': case 'V': // Paste
+			break;
+		case 'b': case 'B': // Nice?
+			break;
+
+		case 'F1': //
+			break;
+		case 'F2': //
+			break;
+		case 'F3': //
+			break;
+		case 'F4': //
+			break;
+		case 'F5': // Test play - ctrl+F5 -> refresh
+			break;
+
+		case ' ': // play/pause
+			break;
+		case 'Alt': // Spacing snap
+			break;
+		case 'Shift': // Grid snap
+			break;
+		case 'Escape': // Empty selection, close any modals
+			break;
+
+		default:
+			stopPropagation = false;
+			break;
+		}
+		if (stopPropagation) {
+			this.state.keyboard.add(event.key.toLowerCase());
+
+			event.preventDefault();
+			event.stopPropagation();
+		}
+	}
+
+	keyUpHandler(event) {
+		this.state.keyboard.delete(event.key.toLowerCase());
 	}
 
 	render() {
@@ -98,7 +203,7 @@ export default class Editor extends React.Component {
 		// sidebarTogglesLeft.push(kiai indicator, samplesets)
 
 		return (
-			<div onDragOver={this.doNothing} onDrop={this.handleOszDrop}>
+			<div tabIndex="0" onDragOver={this.doNothing} onDrop={this.handleOszDrop} onKeyDownCapture={this.keyDownHandler} onKeyUpCapture={this.keyUpHandler}>
 				{topbar}
 				<div className="center">
 					<Sidebar side="left">
@@ -110,6 +215,8 @@ export default class Editor extends React.Component {
 					</Sidebar>
 				</div>
 				{bottombar}
+				<audio preload ref="song">
+				</audio>
 			</div>
 		);
 	}

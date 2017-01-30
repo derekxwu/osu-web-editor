@@ -79,6 +79,9 @@ Top level state holds:
 * beatmap set
 * timestamp
 * playing/notplaying
+    - timeupdate
+    - progress
+    - ratechange
 * current selection
 * active toggles (placing objects, snaps/locks)
 * undo history in state
