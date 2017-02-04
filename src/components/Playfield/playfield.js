@@ -7,11 +7,13 @@
 import React from 'react';
 import Grid from './grid.js';
 import PlayfieldCircle from '../HitObjects/playfieldcircle.js';
+import PlayfieldSlider from '../HitObjects/playfieldslider.js';
+import PlayfieldSpinner from '../HitObjects/playfieldspinner.js';
 
 export default class Playfield extends React.Component {
 	render() {
 		const currentTime = this.props.currentTime;
-		const VISIBLE_RANGE = 3000;
+		const VISIBLE_RANGE = 500;
 		const VISIBLE_START = Math.max(this.props.currentTime - VISIBLE_RANGE, 0);
 		const VISIBLE_END = this.props.currentTime + VISIBLE_RANGE;
 		const visibleObjects = this.props.objects.filter((object) => { // Get objects that show up near current time
@@ -27,9 +29,23 @@ export default class Playfield extends React.Component {
 							time={object.startTime}
 						/>;
 			case 'slider':
-				break;
+				return <PlayfieldSlider
+							key={object.startTime}
+							currentTime={currentTime}
+							time={object.startTime}
+							type={object.curveType}
+							points={object.points}
+							length={object.pixelLength}
+							duration={object.duration}
+						/>;
+				// Use slider velocity or duration?
 			case 'spinner':
-				break;
+				return <PlayfieldSpinner
+							key={object.startTime}
+							currentTime={currentTime}
+							time={object.startTime}
+							end={object.endTime}
+						/>;
 			case 'unknown':
 			default:
 				console.error('Playfield.js error: Error in hitobject.');

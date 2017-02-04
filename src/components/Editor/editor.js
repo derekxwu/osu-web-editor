@@ -32,7 +32,6 @@ export default class Editor extends React.Component {
 		this.beatmapLoad = this.beatmapLoad.bind(this);
 		this.keyDownHandler = this.keyDownHandler.bind(this);
 		this.keyUpHandler = this.keyUpHandler.bind(this);
-		// this.audioTimeUpdateHandler = this.audioTimeUpdateHandler.bind(this);
 	}
 
 	doNothing(event) {
@@ -70,8 +69,8 @@ export default class Editor extends React.Component {
 				})
 				.then((encodedSong) => {
 					this.refs.song.src = 'data:audio/mp3;base64,' + encodedSong;
+					document.getElementsByTagName('audio')[0].play();
 				});
-				
 
 				// eslint-disable-next-line no-console
 				console.log(beatmap); // TODO: This is temp
@@ -92,7 +91,7 @@ export default class Editor extends React.Component {
 			return;
 		}
 		let stopPropagation = true;
-
+		let audio = document.getElementsByTagName('audio')[0];
 		switch (event.key) {
 		case '1': // Select mode
 			break;
@@ -115,12 +114,16 @@ export default class Editor extends React.Component {
 			break;
 
 		case 'a': case 'A': // Select all, AIMod
+			audio.currentTime = 0;
 			break;
 		case 's': case 'S': // Save, export
+			audio.currentTime = audio.currentTime - 3;
 			break;
 		case 'd': case 'D': // Clone, polygons
+			audio.currentTime = audio.currentTime + 3;
 			break;
 		case 'f': case 'F': // Slider2Stream
+			audio.currentTime = audio.currentTime + 10;
 			break;
 		case 'g': case 'G': // Reverse selection
 			break;
@@ -148,6 +151,7 @@ export default class Editor extends React.Component {
 			break;
 
 		case ' ': // play/pause
+			audio.paused ? audio.play() : audio.pause();
 			break;
 		case 'Alt': // Spacing snap
 			break;

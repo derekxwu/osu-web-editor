@@ -6,19 +6,19 @@ While we all wait for osu!next to make this obsolete, there's a few things I'd l
 
 This obviously is not fully working yet.
 
+A lot of the slider implementation is owed to [opsu!](https://github.com/itdelatrisu/opsu).
+
 ## Installation
 
 This project depends on [osu-parser-web](https://github.com/derekxwu/osu-parser-web) (included in lib/ for now), forked from [oamaok/osu-parser-web](https://github.com/oamaok/osu-parser-web)
 
 I don't actually know. First app and all.
 
-`git clone` followed by `npm install` should handle all the dependencies. From there, `gulp` will build everything and run `http-server`, so you should see the page on `https://localhost:8080/`.
+`npm install` should handle all the dependencies. From there, `gulp` will build everything and run `http-server`, so you should see the page on `https://localhost:8080/`.
 
-`gulp runq` will run `http-server` without building first.
+`gulp run` will run `http-server` without building first.
 
-`gulp build` will run will build with minification and optimizations - there's no point at this stage. `gulp buildq` is faster and leaves code human-readable.
-
-There's no need to restart `http-server` when you build. Personally, I leave it running and build from Sublime Text.
+`gulp build` does the obvious, `gulp build:p` does a production build with minification and such.
 
 ## License
 
@@ -38,6 +38,8 @@ MIT for my code. Others for other people's.
 * show min od to prevent note lockout
 * timing - use bpm, offset, spectrogram/waveform instead of weird timing thing
 * Google Drive realtime API
+* paperjs - would require rewrite?
+* Since this is a rhythm game, prioritize audio, have react update as it can
 
 ***
 
@@ -67,6 +69,8 @@ grid is 16x12 at level 4 (every 32opx)
 so it just doubles dims ok
 
 ### architecture
+
+separate UI from data?
 
 hitobjects as array of combo pieces (NCs) sorted by time  
 each of the combos is an array of objects contained, sorted by time  
