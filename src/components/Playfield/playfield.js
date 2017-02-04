@@ -17,7 +17,12 @@ export default class Playfield extends React.Component {
 		const VISIBLE_START = Math.max(this.props.currentTime - VISIBLE_RANGE, 0);
 		const VISIBLE_END = this.props.currentTime + VISIBLE_RANGE;
 		const visibleObjects = this.props.objects.filter((object) => { // Get objects that show up near current time
-			return (object.startTime > VISIBLE_START) && (object.startTime < VISIBLE_END);
+			if (object.objectName === 'circle') {
+				return (object.startTime > VISIBLE_START) && (object.startTime < VISIBLE_END);
+			}
+			else {
+				return (object.startTime < VISIBLE_END) && (object.endTime > VISIBLE_START);
+			}
 		}).map((object) => { // Map these objects to object types
 			switch(object.objectName) {
 			case 'circle':
@@ -36,7 +41,7 @@ export default class Playfield extends React.Component {
 							type={object.curveType}
 							points={object.points}
 							length={object.pixelLength}
-							duration={object.duration}
+							repeats={object.repeatCount}
 						/>;
 				// Use slider velocity or duration?
 			case 'spinner':

@@ -12,13 +12,14 @@ export default class PlayfieldSlider extends React.Component {
 		let d = '';
 		switch (this.props.type) {
 		case 'bezier':
-			d = Curve.osuLinearBezier(this.props.points, this.props.length);
+			d = Curve.osuLinearBezier(this.props.points, this.props.length, this.props.repeats);
 			break;
 		case 'linear':
+			// TODO: repeats
 			d = 'M ' + this.props.points[0].join(' ') + ' L ' + this.props.points[1].join(' ');
 			break;
 		case 'pass-through':
-			d = Curve.osuPassthrough(this.props.points, this.props.length);
+			d = Curve.osuPassthrough(this.props.points, this.props.length, this.props.repeats);
 			break;
 		case 'catmull':
 			console.warn('Catmull sliders are not supported: Slider at ' + this.props.time);
@@ -37,5 +38,5 @@ PlayfieldSlider.propTypes = {
 	type: React.PropTypes.string,
 	points: React.PropTypes.arrayOf(React.PropTypes.arrayOf(React.PropTypes.number)),
 	length: React.PropTypes.number,
-	duration: React.PropTypes.number
+	repeats: React.PropTypes.number
 };
