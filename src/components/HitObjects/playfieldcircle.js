@@ -8,11 +8,29 @@ import React from 'react';
 
 export default class PlayfieldCircle extends React.Component {
 	render() {
+		let circleSize = 36;
+		let approachSize = circleSize * ((this.props.time - this.props.currentTime)/250 + 1);
 		return (
-			<image 	href="img/hitcircle.png"
+			<g>
+				<image
+					href="img/hitcircle.png"
 					x={this.props.x} y={this.props.y}
-					height="30" width="30"
-			/>
+					transform={'translate(-' + circleSize/2 + ', -' + circleSize/2 + ')'}
+					height={circleSize} width={circleSize}
+				/>
+				<image
+					href="img/hitcircleoverlay.png"
+					x={this.props.x} y={this.props.y}
+					transform={'translate(-' + circleSize/2 + ', -' + circleSize/2 + ')'}
+					height={circleSize} width={circleSize}
+				/>
+				{approachSize > circleSize && <image
+					href="img/approachcircle.png"
+					x={this.props.x} y={this.props.y}
+					transform={'translate(-' + approachSize/2 + ', -' + approachSize/2 + ')'}
+					height={approachSize} width={approachSize}
+				/>}
+			</g>
 		);
 	}
 }

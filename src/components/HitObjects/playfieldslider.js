@@ -5,6 +5,7 @@
   */
 
 import React from 'react';
+import PlayfieldCircle from './playfieldcircle.js';
 import Curve from './curve.js';
 
 export default class PlayfieldSlider extends React.Component {
@@ -28,7 +29,26 @@ export default class PlayfieldSlider extends React.Component {
 			console.error('Unexpected slider type');
 			return null;
 		}
-		return <path d={d} stroke="black" strokeWidth="20" strokeOpacity="0.7" strokeLinejoin="round" strokeLinecap="round" fill="none"/>;
+		return <g>
+					<path
+						d={d}
+						stroke="black"
+						strokeWidth="25"
+						strokeOpacity="0.7"
+						strokeLinejoin="round"
+						strokeLinecap="round"
+						fill="none"
+						strokeDasharray={((this.props.currentTime + 500) < this.props.time) ?
+						'0 99999' :
+						(this.props.length * ((this.props.currentTime + 500) - this.props.time) / this.props.duration) + ' 99999'}
+					/>
+					<PlayfieldCircle
+						currentTime={this.props.currentTime}
+						x={this.props.points[0][0]}
+						y={this.props.points[0][1]}
+						time={this.props.time}
+					/>
+				</g>;
 	}
 }
 
@@ -38,5 +58,6 @@ PlayfieldSlider.propTypes = {
 	type: React.PropTypes.string,
 	points: React.PropTypes.arrayOf(React.PropTypes.arrayOf(React.PropTypes.number)),
 	length: React.PropTypes.number,
+	duration: React.PropTypes.number,
 	repeats: React.PropTypes.number
 };

@@ -41,6 +41,7 @@ export default class Playfield extends React.Component {
 							type={object.curveType}
 							points={object.points}
 							length={object.pixelLength}
+							duration={object.duration}
 							repeats={object.repeatCount}
 						/>;
 				// Use slider velocity or duration?
