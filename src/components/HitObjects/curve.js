@@ -25,14 +25,11 @@ export default class Curve {
 			if (segment.length === 2) { // Linear segment
 				dStr += ' L ' + segment[1].join(' ');
 			}
+			// TODO: add cases for 3/4 points (use SVG for quadratic/cubic curves)
 			else {
-				let points = [];
 				for (let i = 0; i <= 1; i += samplingIncrement) {
-					points.push(Curve.bezierPointAt(i, segment));
+					dStr += ' L ' + Curve.bezierPointAt(i, segment).join(' ');
 				}
-				points.forEach((point) => {
-					dStr += ' L ' + point.join(' ');
-				});
 			}
 		});
 		return dStr;
@@ -134,13 +131,9 @@ export default class Curve {
 		if (angleStart > angleEnd) { arcLength = -arcLength; }
 
 		let dStr = 'M ' + slider_points[0].join(' ');
-		let points = [];
 		for (let i = 0; i <= 1; i += 0.05) {
-			points.push([centerPoint[0] + radius * Math.cos(angleStart + i*arcLength), centerPoint[1] + radius * Math.sin(angleStart + i*arcLength)]);
+			dStr += ' L ' + (centerPoint[0] + radius * Math.cos(angleStart + i*arcLength)) + ' ' + (centerPoint[1] + radius * Math.sin(angleStart + i*arcLength));
 		}
-		points.forEach((point) => {
-			dStr += ' L ' + point.join(' ');
-		});
 		return dStr;
 	}
 

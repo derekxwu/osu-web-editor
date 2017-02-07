@@ -25,7 +25,7 @@ export default class Editor extends React.Component {
 			currentTime: 0,
 			selection: [],
 			keyboard: new Set(),
-			drawer: setInterval(this.audioTimeUpdateHandler.bind(this), 80)
+			drawer: setInterval(this.audioTimeUpdateHandler.bind(this), 16)
 		};
 
 		this.handleOszDrop = this.handleOszDrop.bind(this);

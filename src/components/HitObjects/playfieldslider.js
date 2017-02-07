@@ -33,7 +33,7 @@ export default class PlayfieldSlider extends React.Component {
 					<path
 						d={d}
 						stroke="black"
-						strokeWidth="25"
+						strokeWidth="55"
 						strokeOpacity="0.7"
 						strokeLinejoin="round"
 						strokeLinecap="round"

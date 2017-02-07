@@ -68,6 +68,8 @@ grid is 16x12 at level 4 (every 32opx)
 128x96 at 1 (every 4 opx)  
 so it just doubles dims ok
 
+cloudflare? travis?
+
 ### architecture
 
 separate UI from data?

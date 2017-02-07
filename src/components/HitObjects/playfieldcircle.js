@@ -8,7 +8,7 @@ import React from 'react';
 
 export default class PlayfieldCircle extends React.Component {
 	render() {
-		let circleSize = 36;
+		let circleSize = 60;
 		let approachSize = circleSize * ((this.props.time - this.props.currentTime)/250 + 1);
 		return (
 			<g>
