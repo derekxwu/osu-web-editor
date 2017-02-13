@@ -13,7 +13,7 @@ import PlayfieldSpinner from '../HitObjects/playfieldspinner.js';
 export default class Playfield extends React.Component {
 	render() {
 		const currentTime = this.props.currentTime;
-		const VISIBLE_RANGE = 500;
+		const VISIBLE_RANGE = 750;
 		const VISIBLE_START = Math.max(this.props.currentTime - VISIBLE_RANGE, 0);
 		const VISIBLE_END = this.props.currentTime + VISIBLE_RANGE;
 		const visibleObjects = this.props.objects.filter((object) => { // Get objects that show up near current time
@@ -29,20 +29,26 @@ export default class Playfield extends React.Component {
 				return <PlayfieldCircle
 							key={object.startTime}
 							currentTime={currentTime}
+							circleSize={this.props.circleSize}
+							approachTime={this.props.approachTime}
 							x={object.position[0]}
 							y={object.position[1]}
 							time={object.startTime}
+							visibleRange={VISIBLE_RANGE}
 						/>;
 			case 'slider':
 				return <PlayfieldSlider
 							key={object.startTime}
 							currentTime={currentTime}
+							circleSize={this.props.circleSize}
+							approachTime={this.props.approachTime}
 							time={object.startTime}
 							type={object.curveType}
 							points={object.points}
 							length={object.pixelLength}
 							duration={object.duration}
 							repeats={object.repeatCount}
+							visibleRange={VISIBLE_RANGE}
 						/>;
 				// Use slider velocity or duration?
 			case 'spinner':
@@ -80,5 +86,7 @@ export default class Playfield extends React.Component {
 
 Playfield.propTypes = {
 	currentTime: React.PropTypes.number,
-	objects: React.PropTypes.arrayOf(React.PropTypes.object)
+	objects: React.PropTypes.arrayOf(React.PropTypes.object),
+	circleSize: React.PropTypes.number,
+	approachTime: React.PropTypes.number
 };

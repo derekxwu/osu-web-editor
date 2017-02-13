@@ -24,6 +24,8 @@ export default class Editor extends React.Component {
 			backgroundImage: null,
 			currentTime: 0,
 			selection: [],
+			circleSize: 0,
+			approachTime: 0,
 			keyboard: new Set(),
 			drawer: setInterval(this.audioTimeUpdateHandler.bind(this), 16)
 		};
@@ -62,14 +64,27 @@ export default class Editor extends React.Component {
 					audioFile: beatmap.AudioFilename,
 					currentDiff: beatmap,
 					backgroundImage: beatmap.bgFilename,
+					// TODO: Calculate these in the beatmap parser
+					circleSize: 2 * (54.42 - 4.482 * parseFloat(beatmap.CircleSize)),
+					approachTime: (() => {
+						let AR = parseFloat(beatmap.ApproachRate);
+						return AR > 5 ? 1200 - 150 * (AR - 5) : 1800 - 120 *  AR;
+					})(),
 					currentTime: 0
 				});
-				unzipped.file(beatmap.AudioFilename).async('base64', (meta) => {
-					console.log(meta.percent.toFixed(2) + '%');
+				unzipped.file(beatmap.AudioFilename).async('base64', (loading) => {
+					console.log(loading.percent.toFixed(2) + '%');
 				})
 				.then((encodedSong) => {
 					this.refs.song.src = 'data:audio/mp3;base64,' + encodedSong;
 					document.getElementsByTagName('audio')[0].play();
+				});
+				unzipped.file(beatmap.bgFilename).async('base64')
+				.then((encodedImage) => {
+					// png, jpg, gif?????
+					let mimeType = beatmap.bgFilename.split('.').pop().slice(0);
+					if (mimeType === 'jpg') { mimeType = 'jpeg'; }
+					document.body.style.backgroundImage = 'url(\'data:image/' + mimeType + ';base64,' + encodedImage + '\')';
 				});
 
 				// eslint-disable-next-line no-console
@@ -185,7 +200,12 @@ export default class Editor extends React.Component {
 							timingPoints={this.state.currentDiff.timingPoints}
 							bookmarks={this.state.currentDiff.Bookmarks}
 						/>;
-			playfield = <Playfield currentTime={this.state.currentTime} objects={this.state.currentDiff.hitObjects} />;
+			playfield = <Playfield
+							currentTime={this.state.currentTime}
+							objects={this.state.currentDiff.hitObjects}
+							circleSize={this.state.circleSize}
+							approachTime={this.state.approachTime}
+						/>;
 			bottombar = <BottomBar
 							currentTime={this.state.currentTime}
 							timingPoints={this.state.currentDiff.timingPoints}

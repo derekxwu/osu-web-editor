@@ -33,7 +33,7 @@ export default class PlayfieldSlider extends React.Component {
 					<path
 						d={d}
 						stroke="black"
-						strokeWidth="55"
+						strokeWidth={this.props.circleSize - 8}
 						strokeOpacity="0.7"
 						strokeLinejoin="round"
 						strokeLinecap="round"
@@ -47,6 +47,8 @@ export default class PlayfieldSlider extends React.Component {
 						x={this.props.points[0][0]}
 						y={this.props.points[0][1]}
 						time={this.props.time}
+						circleSize={this.props.circleSize}
+						approachTime={this.props.approachTime}
 					/>
 				</g>;
 	}
@@ -59,5 +61,8 @@ PlayfieldSlider.propTypes = {
 	points: React.PropTypes.arrayOf(React.PropTypes.arrayOf(React.PropTypes.number)),
 	length: React.PropTypes.number,
 	duration: React.PropTypes.number,
-	repeats: React.PropTypes.number
+	repeats: React.PropTypes.number,
+	circleSize: React.PropTypes.number,
+	approachTime: React.PropTypes.number,
+	visibleRange: React.PropTypes.number
 };
